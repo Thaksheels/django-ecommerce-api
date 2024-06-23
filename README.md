@@ -1,3 +1,7 @@
 # django-ecommerce-api
 
-#this is astarter project of Django rest api
+#this is a starter project of Django rest api
+
+
+
+
