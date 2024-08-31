@@ -25,7 +25,7 @@ def get_category(request):
     return Response({'category': serialize_category.data})
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
+
 def get_product(request):
     print(request.user.is_staff)
     
@@ -122,16 +122,7 @@ def fetch_shipment_details(request):
 def pay_and_place_order(request):
 
     if request.method == "POST":
-        #     amount = request.data.get('amount')
-        #     response = api.payment_request_create(
-        #     amount=amount,
-        #     purpose="shopping",
-        #     buyer_name="name",
-        #     send_email=True,
-        #     email="thaksheelspillai@gmaill.com",
-        #     redirect_url='http://127.0.0.1:8003/success/'
-        # )
-        #     print(response)
+            
             return HttpResponseRedirect("https://pypi.org/project/instamojo-wrapper/")
 
         

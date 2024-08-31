@@ -79,10 +79,20 @@ WSGI_APPLICATION = 'ecommerse_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'defaultdb',
+        'USER': 'avnadmin',
+        'PASSWORD': 'AVNS_H5MVl114DAxe1b2eEgI',
+        'HOST': 'mysql-3293309c-thaksheelspillai-6b6c.h.aivencloud.com',  # Set to 'localhost' or your MySQL server IP
+        'PORT': '19991',  # Default MySQL port
     }
 }
 
@@ -121,7 +131,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+# settings.py
+
+STATIC_URL = '/static/'  # URL to use when referring to static files
+STATICFILES_DIRS = [     # Additional locations the staticfiles app will traverse
+    BASE_DIR / "static", 
+]
+
+# Directory where static files will be collected
+STATIC_ROOT = BASE_DIR / "staticfiles"  
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
