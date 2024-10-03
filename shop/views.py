@@ -25,9 +25,8 @@ def get_category(request):
     return Response({'category': serialize_category.data})
 
 @api_view(["GET"])
-
 def get_product(request):
-    print(request.user.is_staff)
+    
     
     product_list = Product.objects.all()
     serialize_product = ProductSerializer(product_list, many=True)
@@ -37,7 +36,7 @@ def get_product(request):
 
     # Manipulate each todo item to include the full URL for the image
     for product in serialize_product.data:
-        print(product)
+        
         
         if 'image' in product and product['image']:  # Assuming 'img' is the key for your image path in the serialized data
             product['image'] = product['image']
@@ -49,15 +48,20 @@ def get_product(request):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def add_cart(request):
+    print(request.data,"**************")
+
+    
     
     if request.method == "POST":
         request.data["customer"]=request.user.id
         serializer=CartSerializer(data=request.data)
+        print(request.data)
         if serializer.is_valid():
+            
             serializer.save()
             return Response({'message':'product added to cart'})
         else:
-            print(serializer.errors)
+            print(serializer.errors,"*************************")
     return Response({'message':'product fetched successfully'})
 
 
@@ -67,10 +71,10 @@ def update_cart(request,pk):
     
     if request.method == "PUT":
         
-        print(request)
+        
         try:
             cart = Cart.objects.get(cart_id=pk,customer=request.user)
-            print(cart)
+            
             serializer=CartSerializer(cart,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
@@ -104,7 +108,7 @@ def fetch_shipment_details(request):
     
     if request.method == "GET":
         
-        print(request)
+        
         try:
             shipment = Shipment.objects.filter(customer=request.user)
             
@@ -129,6 +133,31 @@ def pay_and_place_order(request):
         
     return Response({'message':'product fetched successfully'})
 
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_cart(request):
+    
+    if request.method == "GET":
         
+        
+        try:
+            # cart = Cart.objects.filter(customer=request.user).select_related('product')
+            # print(cart.values())
+            # Fetch all Cart items for the current user, including related Product details
+            cart_items = Cart.objects.filter(customer=request.user).select_related('product')
+
+# Iterate over the cart items to access related Product details
+            
+
+            serializer=CartSerializer(cart_items,many=True)
+            
+            
+                
+            return Response({'message':'cart updated successfully','data':serializer.data})
+
+        except Cart.DoesNotExist:
+            return Response({'message':'cart does not exist'})
+    return Response({'message':'product fetched successfully'})
+
         
     

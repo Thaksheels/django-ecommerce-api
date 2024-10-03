@@ -13,9 +13,13 @@ class ProductSerializer(serializers.ModelSerializer):
         fields="__all__"
     
 class CartSerializer(serializers.ModelSerializer):
+    # Use the ProductSerializer to serialize the related Product object
+    product = ProductSerializer(read_only=True)  # Specify related field and use the ProductSerializer
+
     class Meta:
-        model=Cart
-        fields="__all__"
+        model = Cart
+        fields = ["quantity","customer","product"]
+
 
 class ShipmentSerializer(serializers.ModelSerializer):
     class Meta:
